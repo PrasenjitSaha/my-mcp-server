@@ -10,10 +10,26 @@ that the app must bind to.
 import os
 import uvicorn
 from mcp.server.fastmcp import FastMCP
+from mcp.server.transport_security import TransportSecuritySettings
 
 # stateless_http=True avoids needing session/state persistence across
 # requests, which keeps things simple for a first deployment.
-mcp = FastMCP("my-mcp-server", stateless_http=True)
+#
+# transport_security allowlists the Host/Origin headers that are allowed
+# to reach this server. Without this, the MCP SDK's DNS-rebinding
+# protection rejects requests whose Host header isn't localhost, which is
+# what causes the "Invalid Host header" error when running on Render/Azure.
+mcp = FastMCP(
+    "my-mcp-server",
+    stateless_http=True,
+    transport_security=TransportSecuritySettings(
+        allowed_hosts=["my-mcp-server-100.onrender.com", "localhost", "127.0.0.1"],
+        allowed_origins=[
+            "https://my-mcp-server-100.onrender.com",
+            "http://localhost:*",
+        ],
+    ),
+)
 
 
 @mcp.tool()
