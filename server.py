@@ -26,7 +26,7 @@ mcp = FastMCP(
         allowed_hosts=["my-mcp-server-100.onrender.com","my-mcp-server-app-001.azurewebsites.net", "localhost", "127.0.0.1"],
         allowed_origins=[
             "https://my-mcp-server-100.onrender.com",
-            "my-mcp-server-app-001.azurewebsites.net"
+            "https://my-mcp-server-app-001.azurewebsites.net"
             "http://localhost:*",
         ],
     ),
